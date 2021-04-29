@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+    - 13
+services:
+    - docker
+install:
+    - echo "no need to install anything"
+before_script:
+    - echo "no test phase"
+script:
+    - docker --version
+    - docker build -t simple-node .
+    - docker tag simple-node harlanmaas/simple-node-travis-ex:latest
+after_success:
+    - echo "$DOCKERPW" | docker login -u "$DOCKERUSRNAME" --password-stdin
+    - docker push harlanmaas/simple-node-travis-ex
